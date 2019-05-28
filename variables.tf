@@ -210,3 +210,8 @@ variable "dest_range" {
   description = "The destination IPv4 address range that this route applies to"
   default     = "0.0.0.0/0"
 }
+
+variable "network_interfaces" {
+  description = "The network interfaces to assign to the VM."
+  type        = "list"
+}
