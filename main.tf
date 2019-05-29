@@ -42,23 +42,22 @@ locals {
   instance_tags = ["inst-${local.zonal_tag}", "inst-${local.regional_tag}"]
   zonal_tag     = "${var.name}nat-${local.zone}"
   regional_tag  = "${var.name}nat-${var.region}"
+  network_interfaces =  ["${var.network_interfaces"]
 }
 
 module "nat-gateway" {
   # source            = "GoogleCloudPlatform/managed-instance-group/google"
   # version               = "1.1.15"
-  source = "github.com/joelsdc/terraform-google-managed-instance-group?ref=d328ccd747098460eca6a55625a094f6bf161ee5"
+  source = "github.com/joelsdc/terraform-google-managed-instance-group?ref=allow_VMs_with_multiple_interfaces"
 
   module_enabled        = "${var.module_enabled}"
   project               = "${var.project}"
   region                = "${var.region}"
   zone                  = "${local.zone}"
-  network_interfaces    = []
-
+  network_interfaces    = ["${var.network_interfaces}"]
   network               = "${var.network}"
   subnetwork            = "${var.subnetwork}"
   network_ip            = "${var.ip}"
-
   target_tags           = ["${local.instance_tags}"]
   instance_labels       = "${var.instance_labels}"
   service_account_email = "${var.service_account_email}"
