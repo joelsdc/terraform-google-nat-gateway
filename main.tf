@@ -67,7 +67,6 @@ module "nat-gateway" {
   can_ip_forward        = "true"
   service_port          = "80"
   service_port_name     = "http"
-  startup_script        = "${data.template_file.nat-startup-script.rendered}"
   wait_for_instances    = true
   metadata              = "${var.metadata}"
   ssh_fw_rule           = "${var.ssh_fw_rule}"
