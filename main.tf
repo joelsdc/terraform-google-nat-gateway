@@ -29,6 +29,11 @@ data "google_compute_network" "network" {
   project = "${var.network_project == "" ? var.project : var.network_project}"
 }
 
+data "google_compute_subnetwork" "subnetwork" {
+  name    = "${var.subnetwork}"
+  project = "${var.network_project == "" ? var.project : var.network_project}"
+}
+
 data "google_compute_address" "default" {
   count   = "${var.ip_address_name == "" ? 0 : 1}"
   name    = "${var.ip_address_name}"
@@ -54,8 +59,8 @@ module "nat-gateway" {
   region                = "${var.region}"
   zone                  = "${local.zone}"
   network_interfaces    = "${var.network_interfaces}"
-  network               = "${var.network}"
-  subnetwork            = "${var.subnetwork}"
+  network               = "${data.google_compute_network.network.self_link}"
+  subnetwork            = "${data.google_compute_subnetwork.subnetwork.self_link}"
   network_ip            = "${var.ip}"
   target_tags           = ["${local.instance_tags}"]
   instance_labels       = "${var.instance_labels}"
@@ -107,7 +112,7 @@ resource "google_compute_route" "nat-gateway" {
 resource "google_compute_firewall" "nat-gateway" {
   count   = "${var.module_enabled ? 1 : 0}"
   name    = "${local.zonal_tag}"
-  network = "${var.network}"
+  network = "${data.google_compute_network.network.self_link}"
   project = "${var.project}"
 
   allow {
