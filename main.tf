@@ -42,7 +42,6 @@ locals {
   instance_tags = ["inst-${local.zonal_tag}", "inst-${local.regional_tag}"]
   zonal_tag     = "${var.name}nat-${local.zone}"
   regional_tag  = "${var.name}nat-${var.region}"
-  network_interfaces =  ["${var.network_interfaces"]
 }
 
 module "nat-gateway" {
