@@ -53,7 +53,7 @@ module "nat-gateway" {
   project               = "${var.project}"
   region                = "${var.region}"
   zone                  = "${local.zone}"
-  network_interfaces    = ["${var.network_interfaces}"]
+  network_interfaces    = "${var.network_interfaces}"
   network               = "${var.network}"
   subnetwork            = "${var.subnetwork}"
   network_ip            = "${var.ip}"
